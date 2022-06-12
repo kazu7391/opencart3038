@@ -123,6 +123,10 @@ $_['entry_error_display']            = 'Display Errors';
 $_['entry_error_log']                = 'Log Errors';
 $_['entry_error_filename']           = 'Error Log Filename';
 $_['entry_status']                   = 'Status';
+// VL.Tech
+$_['entry_partial_payments_status']  = 'Enable Partial Payments';
+$_['entry_partial_payments_minimum'] = 'Partial Payments Minimum Value';
+// End
 
 // Help
 $_['help_geocode']                   = 'Please enter your store location geocode manually.';

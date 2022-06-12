@@ -562,6 +562,22 @@ class ControllerSettingSetting extends Controller {
 			$data['config_fraud_status_id'] = $this->config->get('config_fraud_status_id');
 		}
 
+		// VL.Tech
+		if (isset($this->request->post['config_partial_payments_status'])) {
+			$data['config_partial_payments_status'] = $this->request->post['config_partial_payments_status'];
+		} else {
+			$data['config_partial_payments_status'] = $this->config->get('config_partial_payments_status');
+		}
+
+		if (isset($this->request->post['config_partial_payments_minimum'])) {
+			$data['config_partial_payments_minimum'] = $this->request->post['config_partial_payments_minimum'];
+		} elseif ($this->config->get('config_partial_payments_minimum')) {
+			$data['config_partial_payments_minimum'] = $this->config->get('config_partial_payments_minimum');
+		} else {
+			$data['config_partial_payments_minimum'] = 50;
+		}
+		// End
+
 		$this->load->model('localisation/order_status');
 
 		$data['order_statuses'] = $this->model_localisation_order_status->getOrderStatuses();
