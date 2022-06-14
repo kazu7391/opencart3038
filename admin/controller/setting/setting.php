@@ -9,6 +9,11 @@ class ControllerSettingSetting extends Controller {
 
 		$this->load->model('setting/setting');
 
+		// VL.Tech
+		$this->load->model('vltech/partial_payments');
+		$this->model_vltech_partial_payments->setup();
+		// End
+
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$this->model_setting_setting->editSetting('config', $this->request->post);
 
