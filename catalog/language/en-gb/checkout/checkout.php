@@ -39,6 +39,10 @@ $_['text_week']                      = 'week';
 $_['text_semi_month']                = 'half-month';
 $_['text_month']                     = 'month';
 $_['text_year']                      = 'year';
+// VL.Tech
+$_['text_upfront_payment']           = 'Upfront Payment';
+$_['text_upfront_payment_minimum']   = 'Upfront Minimum value: %s';
+// End
 
 // Column
 $_['column_name']                    = 'Product Name';

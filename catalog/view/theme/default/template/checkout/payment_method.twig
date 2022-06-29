@@ -18,6 +18,14 @@
 </div>
 {% endfor %}
 {% endif %}
+{# VL.Tech #}
+{% if partial_payments_status %}
+<div class="upfront-payment-section">
+  <span>{{ text_upfront_payment }}</span>
+  <input class="form-control" type="text" name="partial_payments_value" placeholder="{{ text_upfront_payment_minimum }}" />
+</div>
+{% endif %}
+{# End #}
 <p><strong>{{ text_comments }}</strong></p>
 <p>
   <textarea name="comment" rows="8" class="form-control">{{ comment }}</textarea>

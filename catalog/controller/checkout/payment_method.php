@@ -121,6 +121,24 @@ class ControllerCheckoutPaymentMethod extends Controller {
 			$data['agree'] = '';
 		}
 
+		// VL.Tech
+		
+
+		if($this->config->get('config_partial_payments_status')) {
+			$data['partial_payments_status'] = (int) $this->config->get('config_partial_payments_status');
+		} else {
+			$data['partial_payments_status'] = 0;
+		}
+
+		if($this->config->get('config_partial_payments_minimum')) {
+			$data['partial_payments_minimum'] = (float) $this->config->get('config_partial_payments_minimum');
+		} else {
+			$data['partial_payments_minimum'] = 0;
+		}
+
+		$data['text_upfront_payment_minimum'] = sprintf($this->language->get('text_upfront_payment_minimum'), $this->currency->format($data['partial_payments_minimum'], $this->session->data['currency']));
+		// End
+
 		$this->response->setOutput($this->load->view('checkout/payment_method', $data));
 	}
 
