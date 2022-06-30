@@ -122,8 +122,6 @@ class ControllerCheckoutPaymentMethod extends Controller {
 		}
 
 		// VL.Tech
-		
-
 		if($this->config->get('config_partial_payments_status')) {
 			$data['partial_payments_status'] = (int) $this->config->get('config_partial_payments_status');
 		} else {
@@ -192,8 +190,40 @@ class ControllerCheckoutPaymentMethod extends Controller {
 			}
 		}
 
+		// VL.Tech
+		if($this->config->get('config_partial_payments_status')) {
+			$partial_payments_status = (int) $this->config->get('config_partial_payments_status');
+		} else {
+			$partial_payments_status = 0;
+		}
+
+		if($this->config->get('config_partial_payments_minimum')) {
+			$partial_payments_minimum = (float) $this->config->get('config_partial_payments_minimum');
+		} else {
+			$partial_payments_minimum = 0;
+		}
+
+		$partial_payments_value = 0;
+		if($partial_payments_status) {
+			if (!isset($this->request->post['partial_payments_value'])) {
+				$json['error']['warning'] = sprintf($this->language->get('error_partial_payment_value'), $this->currency->format($partial_payments_minimum, $this->session->data['currency']));
+			} else {
+				$partial_payments_value = (float) $this->request->post['partial_payments_value'];
+				
+				if ($partial_payments_value < $partial_payments_minimum) {
+					$json['error']['warning'] = sprintf($this->language->get('error_partial_payment_value'), $this->currency->format($partial_payments_minimum, $this->session->data['currency']));
+					$partial_payments_value = 0;
+				}
+			}
+		}
+		// End
+
 		if (!$json) {
 			$this->session->data['payment_method'] = $this->session->data['payment_methods'][$this->request->post['payment_method']];
+
+			// VL.Tech
+			$this->session->data['partial_payments_value'] = (float) $partial_payments_value;
+			// End
 
 			$this->session->data['comment'] = strip_tags($this->request->post['comment']);
 		}

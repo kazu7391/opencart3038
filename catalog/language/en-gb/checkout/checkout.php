@@ -39,10 +39,6 @@ $_['text_week']                      = 'week';
 $_['text_semi_month']                = 'half-month';
 $_['text_month']                     = 'month';
 $_['text_year']                      = 'year';
-// VL.Tech
-$_['text_upfront_payment']           = 'Upfront Payment';
-$_['text_upfront_payment_minimum']   = 'Upfront Minimum value: %s';
-// End
 
 // Column
 $_['column_name']                    = 'Product Name';
@@ -95,3 +91,9 @@ $_['error_no_shipping']              = 'Warning: No Shipping options are availab
 $_['error_payment']                  = 'Warning: Payment method required!';
 $_['error_no_payment']               = 'Warning: No Payment options are available. Please <a href="%s">contact us</a> for assistance!';
 $_['error_custom_field']             = '%s required!';
+
+// VL.Tech
+$_['text_upfront_payment']           = 'Upfront Payment';
+$_['text_upfront_payment_minimum']   = 'Upfront Minimum value: %s';
+$_['error_partial_payment_value']    = 'Warning: You must input partial payments value and make it larger than minimum ( %s )';
+// End
