@@ -21,9 +21,69 @@
 {# VL.Tech #}
 {% if partial_payments_status %}
 <div class="upfront-payment-section">
-  <span>{{ text_upfront_payment }}</span>
-  <input class="form-control" type="text" name="partial_payments_value" placeholder="{{ text_upfront_payment_minimum }}" />
+  <div class="upfront-payment-value">
+    <span>{{ text_upfront_payment }}</span>
+    <input class="form-control" type="text" name="partial_payments_value" placeholder="{{ text_upfront_payment_minimum }}" />
+  </div>
+  <div class="upfront-payment-screenshot">
+    <button type="button" id="button-upload-screenshot" data-loading-text="{{ text_loading }}" class="btn btn-default btn-block"><i class="fa fa-upload"></i> {{ button_upload }}</button>
+    <span id="screenshot_name"></span>
+    <input type="hidden" name="partial_payments_screenshot" value="" id="input-screenshot" />
+  </div>
 </div>
+<script type="text/javascript"><!--
+$('button[id^=\'button-upload-screenshot\']').on('click', function() {
+	var node = this;
+
+	$('#form-upload').remove();
+
+	$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
+
+	$('#form-upload input[name=\'file\']').trigger('click');
+
+	if (typeof timer != 'undefined') {
+    	clearInterval(timer);
+	}
+
+	timer = setInterval(function() {
+		if ($('#form-upload input[name=\'file\']').val() != '') {
+			clearInterval(timer);
+
+			$.ajax({
+				url: 'index.php?route=tool/upload',
+				type: 'post',
+				dataType: 'json',
+				data: new FormData($('#form-upload')[0]),
+				cache: false,
+				contentType: false,
+				processData: false,
+				beforeSend: function() {
+					$(node).button('loading');
+				},
+				complete: function() {
+					$(node).button('reset');
+				},
+				success: function(json) {
+					$('.text-danger').remove();
+
+					if (json['error']) {
+						$(node).parent().find('input').after('<div class="text-danger">' + json['error'] + '</div>');
+					}
+
+					if (json['success']) {
+						alert(json['success']);
+
+						$(node).parent().find('input').val(json['code']);
+					}
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				}
+			});
+		}
+	}, 500);
+});
+//--></script>
 {% endif %}
 {# End #}
 <p><strong>{{ text_comments }}</strong></p>
@@ -48,4 +108,4 @@
     <input type="button" value="{{ button_continue }}" id="button-payment-method" data-loading-text="{{ text_loading }}" class="btn btn-primary" />
   </div>
 </div>
-{% endif %} 
+{% endif %}

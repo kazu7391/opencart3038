@@ -9,7 +9,7 @@ class ModelExtensionTotalRestTotal extends Model {
 			if (isset($this->session->data['partial_payments_value'])) {
 				$upfront_payment_value = (float) $this->session->data['partial_payments_value'];
 			} else {
-				$upfront_payment_value = (float) $this->config->get('config_partial_payments_minimum');
+				$upfront_payment_value = 0;
 			}
 
 			if($upfront_payment_status && $upfront_payment_value != 0) {
