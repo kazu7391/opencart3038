@@ -3,3 +3,4 @@ system/storage
 config.php
 admin/config.php
 image/cache
+image/payment
