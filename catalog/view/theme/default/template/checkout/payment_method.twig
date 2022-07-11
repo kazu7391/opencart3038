@@ -20,10 +20,14 @@
 {% endif %}
 {# VL.Tech #}
 {% if partial_payments_status %}
+<input type="checkbox" 
+	id="cbx-upfront-status"
+	{% if partial_payments_upfront_status %} checked="checked" {% endif %}
+	name="partial_payments_upfront_status" /> {{ text_upfront_question }}
 <div class="upfront-payment-section">
   <div class="upfront-payment-value">
     <span>{{ text_upfront_payment }}</span>
-    <input class="form-control" type="text" name="partial_payments_value" placeholder="{{ text_upfront_payment_minimum }}" />
+    <input class="form-control" type="text" name="partial_payments_value" value="{{ partial_payments_value }}" placeholder="{{ text_upfront_payment_minimum }}" />
   </div>
   <div class="upfront-payment-screenshot">
     <button type="button" id="button-upload-screenshot" data-loading-text="{{ text_loading }}" class="btn btn-default btn-block"><i class="fa fa-upload"></i> {{ button_upload }}</button>
@@ -32,6 +36,20 @@
   </div>
 </div>
 <script type="text/javascript"><!--
+$('.upfront-payment-section').hide();
+if($('#cbx-upfront-status').is(':checked')) {
+  $('.upfront-payment-section').show();
+} else {
+  $('.upfront-payment-section').hide();
+}
+$('#cbx-upfront-status').on('click', function() {
+  if($(this).is(':checked')) {
+	$('.upfront-payment-section').show();
+  } else {
+	$('.upfront-payment-section').hide();
+  }
+});
+
 $('button[id^=\'button-upload-screenshot\']').on('click', function() {
 	var node = this;
 

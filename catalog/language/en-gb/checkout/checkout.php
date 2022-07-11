@@ -93,6 +93,7 @@ $_['error_no_payment']               = 'Warning: No Payment options are availabl
 $_['error_custom_field']             = '%s required!';
 
 // VL.Tech
+$_['text_upfront_question']          = 'Do you want to prepay?';
 $_['text_upfront_payment']           = 'Upfront Payment';
 $_['text_upfront_payment_minimum']   = 'Upfront Minimum value: %s';
 $_['error_partial_payment_value']    = 'Warning: You must input partial payments value and make it larger than minimum ( %s )';

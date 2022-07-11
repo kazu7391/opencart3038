@@ -25,5 +25,17 @@ class ModelVltechPartialPayments extends Model
             $sql = "ALTER TABLE `" . DB_PREFIX . "order` ADD `rest_total` decimal(15,4) DEFAULT 0";
             $this->db->query($sql);
         }
+
+        // Create table to save screenshot
+        $this->db->query("
+			CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "order_multi_payments` (
+			    `order_payment_id` INT(11) NOT NULL AUTO_INCREMENT,
+	            `order_id` INT(11) NOT NULL DEFAULT '0',
+	            `customer_id` INT(11) NOT NULL DEFAULT '0',
+	            `payment_value` decimal(15,4) NOT NULL DEFAULT '0',
+	            `screenshot` varchar(255) NOT NULL DEFAULT '',
+	            `date_added` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	        PRIMARY KEY (`order_payment_id`)
+		) DEFAULT COLLATE=utf8_general_ci;");
     }
 }

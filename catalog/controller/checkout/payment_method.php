@@ -122,6 +122,18 @@ class ControllerCheckoutPaymentMethod extends Controller {
 		}
 
 		// VL.Tech
+		if (isset($this->session->data['partial_payments_upfront_status'])) {
+			$data['partial_payments_upfront_status'] = (int) $this->session->data['partial_payments_upfront_status'];
+		} else {
+			$data['partial_payments_upfront_status'] = 0;
+		}
+
+		if (isset($this->session->data['partial_payments_value'])) {
+			$data['partial_payments_value'] = (float) $this->session->data['partial_payments_value'];
+		} else {
+			$data['partial_payments_value'] = 0;
+		}
+
 		if($this->config->get('config_partial_payments_status')) {
 			$data['partial_payments_status'] = (int) $this->config->get('config_partial_payments_status');
 		} else {
@@ -204,15 +216,19 @@ class ControllerCheckoutPaymentMethod extends Controller {
 		}
 
 		$partial_payments_value = 0;
+		$partial_payments_upfront_status = 0;
 		if($partial_payments_status) {
-			if (!isset($this->request->post['partial_payments_value'])) {
-				$json['error']['warning'] = sprintf($this->language->get('error_partial_payment_value'), $this->currency->format($partial_payments_minimum, $this->session->data['currency']));
-			} else {
-				$partial_payments_value = (float) $this->request->post['partial_payments_value'];
-				
-				if ($partial_payments_value < $partial_payments_minimum) {
+			if(isset($this->request->post['partial_payments_upfront_status'])) {
+				if (!isset($this->request->post['partial_payments_value'])) {
 					$json['error']['warning'] = sprintf($this->language->get('error_partial_payment_value'), $this->currency->format($partial_payments_minimum, $this->session->data['currency']));
-					$partial_payments_value = 0;
+				} else {
+					$partial_payments_value = (float) $this->request->post['partial_payments_value'];
+					$partial_payments_upfront_status = 1;
+					
+					if ($partial_payments_value < $partial_payments_minimum) {
+						$json['error']['warning'] = sprintf($this->language->get('error_partial_payment_value'), $this->currency->format($partial_payments_minimum, $this->session->data['currency']));
+						$partial_payments_value = 0;
+					}
 				}
 			}
 		}
@@ -223,6 +239,7 @@ class ControllerCheckoutPaymentMethod extends Controller {
 
 			// VL.Tech
 			$this->session->data['partial_payments_value'] = (float) $partial_payments_value;
+			$this->session->data['partial_payments_upfront_status'] = $partial_payments_upfront_status;
 			// End
 
 			$this->session->data['comment'] = strip_tags($this->request->post['comment']);
