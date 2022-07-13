@@ -217,6 +217,7 @@ class ControllerCheckoutPaymentMethod extends Controller {
 
 		$partial_payments_value = 0;
 		$partial_payments_upfront_status = 0;
+		$partial_payments_screenshot = '';
 		if($partial_payments_status) {
 			if(isset($this->request->post['partial_payments_upfront_status'])) {
 				if (!isset($this->request->post['partial_payments_value'])) {
@@ -229,6 +230,10 @@ class ControllerCheckoutPaymentMethod extends Controller {
 						$json['error']['warning'] = sprintf($this->language->get('error_partial_payment_value'), $this->currency->format($partial_payments_minimum, $this->session->data['currency']));
 						$partial_payments_value = 0;
 					}
+
+					if(isset($this->request->post['partial_payments_screenshot'])) {
+						$partial_payments_screenshot = $this->request->post['partial_payments_screenshot'];
+					}
 				}
 			}
 		}
@@ -240,6 +245,7 @@ class ControllerCheckoutPaymentMethod extends Controller {
 			// VL.Tech
 			$this->session->data['partial_payments_value'] = (float) $partial_payments_value;
 			$this->session->data['partial_payments_upfront_status'] = $partial_payments_upfront_status;
+			$this->session->data['partial_payments_screenshot'] = $partial_payments_screenshot;
 			// End
 
 			$this->session->data['comment'] = strip_tags($this->request->post['comment']);
@@ -322,6 +328,8 @@ class ControllerCheckoutPaymentMethod extends Controller {
 			$this->load->model('tool/upload');
 
 			$json['code'] = $this->model_tool_upload->addUpload($filename, $file);
+			$json['file_path'] = 'image/payment/screenshot/' . $filename;
+			$json['file_name'] = $filename;
 
 			$json['success'] = $this->language->get('text_upload');
 		}

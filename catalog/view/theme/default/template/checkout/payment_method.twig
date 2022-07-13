@@ -27,7 +27,9 @@
 <div class="upfront-payment-section">
   <div class="upfront-payment-value">
     <span>{{ text_upfront_payment }}</span>
-    <input class="form-control" type="text" name="partial_payments_value" value="{{ partial_payments_value }}" placeholder="{{ text_upfront_payment_minimum }}" />
+    <input class="form-control" type="text" name="partial_payments_value" 
+		{% if partial_payments_value != 0 %} value="{{ partial_payments_value }}" {% endif %}
+		placeholder="{{ text_upfront_payment_minimum }}" />
   </div>
   <div class="upfront-payment-screenshot">
     <button type="button" id="button-upload-screenshot" data-loading-text="{{ text_loading }}" class="btn btn-default btn-block"><i class="fa fa-upload"></i> {{ button_upload }}</button>
@@ -91,7 +93,9 @@ $('button[id^=\'button-upload-screenshot\']').on('click', function() {
 					if (json['success']) {
 						alert(json['success']);
 
-						$(node).parent().find('input').val(json['code']);
+						$(node).parent().find('input').val(json['file_path']);
+						$('#screenshot_name').html(json['file_name']);
+						$('.upfront-payment-screenshot').append('<img src="' + json['file_path'] + '" />');
 					}
 				},
 				error: function(xhr, ajaxOptions, thrownError) {
