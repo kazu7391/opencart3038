@@ -321,6 +321,16 @@ class ControllerCheckoutConfirm extends Controller {
 
 			$this->load->model('checkout/order');
 
+			// VL.Tech
+			// Save into order table
+			$order_data['partial_payments_status'] = (int) $this->session->data['partial_payments_upfront_status'];
+			$order_data['upfront_payment'] = (float) $this->session->data['partial_payments_value'];
+			$order_data['rest_total'] = $order_data['total'];
+
+			// Save into order multi payment table
+
+			// End
+
 			$this->session->data['order_id'] = $this->model_checkout_order->addOrder($order_data);
 
 			$this->load->model('tool/upload');
