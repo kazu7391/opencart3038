@@ -327,11 +327,17 @@ class ControllerCheckoutConfirm extends Controller {
 			$order_data['upfront_payment'] = (float) $this->session->data['partial_payments_value'];
 			$order_data['rest_total'] = $order_data['total'];
 
-			// Save into order multi payment table
+			$this->session->data['order_id'] = $this->model_checkout_order->addOrder($order_data);
 
+			// Save into order multi payment table
+			$this->load->model('checkout/partial_payment');
+			$multi_payment_data = array();
+			if($order_data['partial_payments_status']) {
+				$multi_payment_data['order_id'] = $this->session->data['order_id'];
+			} // continue here
 			// End
 
-			$this->session->data['order_id'] = $this->model_checkout_order->addOrder($order_data);
+			// $this->session->data['order_id'] = $this->model_checkout_order->addOrder($order_data);
 
 			$this->load->model('tool/upload');
 
